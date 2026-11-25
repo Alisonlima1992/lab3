@@ -5,20 +5,17 @@ using System.Windows;
 public class CController
 {
     private List<CCollectable> objects = new List<CCollectable>();
-    private double spawnRate;
-    private double time;
+    private double spawnRate = 1.8;
+    private double time = 0;
     private Random rng = new Random();
-    private double minLifetime = 1.5;
-    private double maxLifetime = 4.0;
-    private double minSpriteSize = 18;
-    private double maxSpriteSize = 32;
+    private double minLifetime = 2.0;
+    private double maxLifetime = 4.5;
+    private double minSpriteSize = 22;
+    private double maxSpriteSize = 38;
     private Size sceneSize;
-    private double points = 0;
 
-    public CController(double spawnRate, double startTime, Size sceneSize)
+    public CController(Size sceneSize)
     {
-        this.spawnRate = spawnRate;
-        this.time = startTime;
         this.sceneSize = sceneSize;
     }
 
@@ -26,29 +23,27 @@ public class CController
     {
         double size = minSpriteSize + rng.NextDouble() * (maxSpriteSize - minSpriteSize);
         double lifetime = minLifetime + rng.NextDouble() * (maxLifetime - minLifetime);
-        double x = rng.NextDouble() * (sceneSize.Width - size);
-        double y = rng.NextDouble() * (sceneSize.Height - size);
-        Point pos = new Point(x, y);
 
-        int type = rng.Next(0, 10);
+        double x = sceneSize.Width * 0.25 + rng.NextDouble() * (sceneSize.Width * 0.5);
+        double y = sceneSize.Height * 0.35 + rng.NextDouble() * (sceneSize.Height * 0.4);
+
+        Point pos = new Point(x, y);
+        int type = rng.Next(0, 12);
 
         CCollectable obj;
 
-        if (type < 5)
+        if (type < 4)
             obj = new CPointGiver(pos, size, lifetime);
-        else if (type < 7)
-            obj = new CSpawnRateChanger(pos, size, lifetime);
-        else if (type < 9)
-            obj = new CLifetimeChanger(pos, size, lifetime);
-        else
+        else if (type < 6)
+            obj = new CGoldBoost(pos, size, lifetime);
+        else if (type < 8)
+            obj = new CDamageBoost(pos, size, lifetime);
+        else if (type < 10)
             obj = new CClickSpeedUp(pos, size, lifetime);
+        else
+            obj = new CSpawnRateChanger(pos, size, lifetime);
 
         objects.Add(obj);
-    }
-
-    public void destroyObject(CCollectable obj)
-    {
-        objects.Remove(obj);
     }
 
     public void update(double delta)
@@ -82,11 +77,11 @@ public class CController
         return null;
     }
 
-    public void pointsIncrease(double value) => points += value;
+    public void destroyObject(CCollectable obj) => objects.Remove(obj);
 
     public void changeSpawnRate(double modifier)
     {
-        spawnRate = Math.Max(0.35, spawnRate * modifier);
+        spawnRate = Math.Max(0.4, spawnRate * modifier);
     }
 
     public void changeLifetimeRange(double min, double max)
@@ -95,6 +90,9 @@ public class CController
         maxLifetime = max;
     }
 
-    public double getPoints() => points;
+    public void pointsIncrease(double value)
+    {
+    }
+
     public IReadOnlyList<CCollectable> getObjects() => objects.AsReadOnly();
 }

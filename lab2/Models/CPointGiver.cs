@@ -16,8 +16,8 @@ public class CPointGiver : CCollectable
     {
         if (!isMouseOnObject(mousePosition)) return null;
 
-        double value = pointsValue;
-        controller.pointsIncrease(value);
-        return $"+{value:0.0} очков";
+        double value = Math.Max(8, pointsValue / 8);
+        player.AddGold(value);
+        return $"+{value:0} золота";
     }
 }
