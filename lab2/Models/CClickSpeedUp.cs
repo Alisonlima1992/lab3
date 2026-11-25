@@ -12,10 +12,11 @@ public class CClickSpeedUp : CCollectable
         sprite.Fill = Brushes.Red;
     }
 
-    public override bool onClick(CPlayer player, CController controller, Point mousePosition)
+    public override string onClick(CPlayer player, CController controller, Point mousePosition)
     {
-        if (!isMouseOnObject(mousePosition)) return false;
+        if (!isMouseOnObject(mousePosition)) return null;
+
         player.increaseSpeed(modifier);
-        return true;
+        return "Скорость клика увеличена!";
     }
 }

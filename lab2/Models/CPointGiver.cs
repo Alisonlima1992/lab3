@@ -12,10 +12,12 @@ public class CPointGiver : CCollectable
         pointsValue = ((1.0 / size) / lifetime) * 1000.0;
     }
 
-    public override bool onClick(CPlayer player, CController controller, Point mousePosition)
+    public override string onClick(CPlayer player, CController controller, Point mousePosition)
     {
-        if (!isMouseOnObject(mousePosition)) return false;
-        controller.pointsIncrease(pointsValue);
-        return true;
+        if (!isMouseOnObject(mousePosition)) return null;
+
+        double value = pointsValue;
+        controller.pointsIncrease(value);
+        return $"+{value:0.0} очков";
     }
 }

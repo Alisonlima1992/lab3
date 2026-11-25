@@ -41,5 +41,5 @@ public abstract class CCollectable
         return lifetime <= 0;
     }
 
-    public abstract bool onClick(CPlayer player, CController controller, Point mousePosition);
+    public abstract string onClick(CPlayer player, CController controller, Point mousePosition);
 }

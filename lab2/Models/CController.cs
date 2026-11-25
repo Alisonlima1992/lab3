@@ -68,16 +68,18 @@ public class CController
         }
     }
 
-    public void mouseClick(CPlayer player, Point mousePosition)
+    public string mouseClick(CPlayer player, Point mousePosition)
     {
         for (int i = objects.Count - 1; i >= 0; i--)
         {
-            if (objects[i].onClick(player, this, mousePosition))
+            string result = objects[i].onClick(player, this, mousePosition);
+            if (result != null)
             {
                 destroyObject(objects[i]);
-                break;
+                return result;
             }
         }
+        return null;
     }
 
     public void pointsIncrease(double value) => points += value;

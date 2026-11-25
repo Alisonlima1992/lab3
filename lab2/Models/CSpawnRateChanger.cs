@@ -12,10 +12,11 @@ public class CSpawnRateChanger : CCollectable
         sprite.Fill = Brushes.HotPink;
     }
 
-    public override bool onClick(CPlayer player, CController controller, Point mousePosition)
+    public override string onClick(CPlayer player, CController controller, Point mousePosition)
     {
-        if (!isMouseOnObject(mousePosition)) return false;
+        if (!isMouseOnObject(mousePosition)) return null;
+
         controller.changeSpawnRate(modifier);
-        return true;
+        return "Частота появления увеличена!";
     }
 }

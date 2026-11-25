@@ -14,16 +14,16 @@
 
         <Border Grid.Column="0" Background="#E8E8E8" BorderBrush="#CCCCCC" BorderThickness="0,0,1,0">
             <StackPanel Margin="15">
-                <Button x:Name="btnStart" Content="Start" Height="35" Margin="0,0,0,10"
+                <Button x:Name="btnStart" Content="Старт" Height="35" Margin="0,0,0,10"
                         Click="btnStart_Click"/>
 
-                <TextBlock x:Name="tbStatus" Text="Ready!" FontSize="14" Margin="0,0,0,15"/>
+                <TextBlock x:Name="tbStatus" Text="" FontSize="14" Margin="0,0,0,15"/>
 
-                <TextBlock Text="Score:" FontWeight="Bold"/>
+                <TextBlock Text="Очки:" FontWeight="Bold"/>
                 <TextBlock x:Name="tbScore" Text="0" FontSize="22" Margin="0,0,0,20"/>
 
-                <TextBlock Text="Time:" FontWeight="Bold"/>
-                <TextBlock x:Name="tbTime" Text="0.0s" FontSize="18" Margin="0,0,0,20"/>
+                <TextBlock Text="Время:" FontWeight="Bold"/>
+                <TextBlock x:Name="tbTime" Text="0.0с" FontSize="18" Margin="0,0,0,20"/>
 
                 <ListBox x:Name="lbLog" Height="300" Background="White"/>
             </StackPanel>

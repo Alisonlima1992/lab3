@@ -42,18 +42,18 @@ namespace ClickOrLoose
             lbLog.Items.Clear();
             tbScore.Text = "0";
             totalTime = 0;
-            tbTime.Text = "0.0s";
+            tbTime.Text = "0.0с";
 
             Size sceneSize = new Size(gameCanvas.ActualWidth, gameCanvas.ActualHeight);
             if (sceneSize.Width < 10 || sceneSize.Height < 10)
                 sceneSize = new Size(700, 550);
 
-            controller = new CController(1.1, 0, sceneSize);
+            controller = new CController(0.55, 0, sceneSize);
             player = new CPlayer(0.45);
 
             isRunning = true;
-            btnStart.Content = "Stop";
-            tbStatus.Text = "Playing...";
+            btnStart.Content = "Стоп";
+            tbStatus.Text = "Игра";
             timer.Start();
         }
 
@@ -61,8 +61,8 @@ namespace ClickOrLoose
         {
             timer.Stop();
             isRunning = false;
-            btnStart.Content = "Start";
-            tbStatus.Text = "Stopped";
+            btnStart.Content = "Старт";
+            tbStatus.Text = "Стоп";
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace ClickOrLoose
 
             double delta = 0.1;
             totalTime += delta;
-            tbTime.Text = totalTime.ToString("0.0") + "s";
+            tbTime.Text = totalTime.ToString("0.0") + "с";
 
             player.update(delta);
             controller.update(delta);
@@ -95,17 +95,14 @@ namespace ClickOrLoose
             if (!isRunning || !player.CanClick) return;
 
             Point mousePos = e.GetPosition(gameCanvas);
-
             player.mouseClick(mousePos);
 
-            double oldScore = controller.getPoints();
-            controller.mouseClick(player, mousePos);
-            double newScore = controller.getPoints();
+            string result = controller.mouseClick(player, mousePos);
 
-            if (newScore > oldScore)
-                lbLog.Items.Insert(0, $"+{(newScore - oldScore):0.0} points");
+            if (result != null)
+                lbLog.Items.Insert(0, result);
             else
-                lbLog.Items.Insert(0, "Miss / Bonus");
+                lbLog.Items.Insert(0, "Промах");
 
             if (lbLog.Items.Count > 12)
                 lbLog.Items.RemoveAt(lbLog.Items.Count - 1);

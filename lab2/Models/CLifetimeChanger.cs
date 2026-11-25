@@ -9,10 +9,11 @@ public class CLifetimeChanger : CCollectable
         sprite.Fill = Brushes.Yellow;
     }
 
-    public override bool onClick(CPlayer player, CController controller, Point mousePosition)
+    public override string onClick(CPlayer player, CController controller, Point mousePosition)
     {
-        if (!isMouseOnObject(mousePosition)) return false;
+        if (!isMouseOnObject(mousePosition)) return null;
+
         controller.changeLifetimeRange(0.5, 2.5);
-        return true;
+        return "Время жизни изменено!";
     }
 }
