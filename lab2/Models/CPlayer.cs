@@ -27,14 +27,9 @@ public class CPlayer
         countdownTimer.reset();
     }
 
-    public void countdownEnded()
-    {
-        canClick = true;
-    }
-
     public void increaseSpeed(double speedModifier)
     {
-        timeBeforeClick = Math.Max(0.1, timeBeforeClick * speedModifier);
+        timeBeforeClick = Math.Max(0.12, timeBeforeClick * speedModifier);
         countdownTimer.setTarget(timeBeforeClick);
     }
 

@@ -12,7 +12,7 @@ public class CLifetimeChanger : CCollectable
     public override bool onClick(CPlayer player, CController controller, Point mousePosition)
     {
         if (!isMouseOnObject(mousePosition)) return false;
-        controller.changeLifetimeRange(0.5, 3.0);
+        controller.changeLifetimeRange(0.5, 2.5);
         return true;
     }
 }

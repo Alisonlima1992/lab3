@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -46,11 +45,11 @@ namespace ClickOrLoose
             tbTime.Text = "0.0s";
 
             Size sceneSize = new Size(gameCanvas.ActualWidth, gameCanvas.ActualHeight);
-            if (sceneSize.Width == 0 || sceneSize.Height == 0)
+            if (sceneSize.Width < 10 || sceneSize.Height < 10)
                 sceneSize = new Size(700, 550);
 
-            controller = new CController(1.2, 0, sceneSize);
-            player = new CPlayer(0.4);
+            controller = new CController(1.1, 0, sceneSize);
+            player = new CPlayer(0.45);
 
             isRunning = true;
             btnStart.Content = "Stop";
@@ -77,19 +76,17 @@ namespace ClickOrLoose
             player.update(delta);
             controller.update(delta);
 
-            RedrawObjects();
+            Redraw();
             tbScore.Text = controller.getPoints().ToString("0");
         }
 
-        private void RedrawObjects()
+        private void Redraw()
         {
             gameCanvas.Children.Clear();
 
             foreach (var obj in controller.getObjects())
             {
-                Ellipse sprite = obj.getSprite();
-                if (!gameCanvas.Children.Contains(sprite))
-                    gameCanvas.Children.Add(sprite);
+                gameCanvas.Children.Add(obj.getSprite());
             }
         }
 
@@ -98,26 +95,22 @@ namespace ClickOrLoose
             if (!isRunning || !player.CanClick) return;
 
             Point mousePos = e.GetPosition(gameCanvas);
+
             player.mouseClick(mousePos);
 
-            double oldPoints = controller.getPoints();
-            controller.mouseClick(mousePos);
-            double newPoints = controller.getPoints();
+            double oldScore = controller.getPoints();
+            controller.mouseClick(player, mousePos);
+            double newScore = controller.getPoints();
 
-            if (newPoints > oldPoints)
-            {
-                double gained = newPoints - oldPoints;
-                lbLog.Items.Insert(0, $"+{gained:0.0} points");
-            }
+            if (newScore > oldScore)
+                lbLog.Items.Insert(0, $"+{(newScore - oldScore):0.0} points");
             else
-            {
-                lbLog.Items.Insert(0, "Miss");
-            }
+                lbLog.Items.Insert(0, "Miss / Bonus");
 
-            if (lbLog.Items.Count > 15)
+            if (lbLog.Items.Count > 12)
                 lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
 
-            RedrawObjects();
+            Redraw();
             tbScore.Text = controller.getPoints().ToString("0");
         }
     }
